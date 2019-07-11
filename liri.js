@@ -25,3 +25,18 @@ var spotify = new Spotify(keys.spotify);
 
 //         console.log(data); 
 // });
+
+
+
+if (process.argv[2] === "concert this") {
+
+}
+if (process.argv[2] === "spotify-this-song") {
+
+}
+if (process.argv[2] === "movie-this") {
+
+}
+if (process.argv[2] === "do-what-it-says") {
+
+}
