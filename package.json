@@ -1,0 +1,20 @@
+{
+  "name": "liri-node-app",
+  "version": "1.0.0",
+  "description": "a backend node command line application that can communicate with three API's to get useful information for fun events near you! Bands in town API, OMDB API, and Spotify API",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinspies/liri-node-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kevinspies/liri-node-app/issues"
+  },
+  "homepage": "https://github.com/kevinspies/liri-node-app#readme"
+}
