@@ -4,8 +4,10 @@ var axios = require("axios");
 var keys = require("./keys.js");
 var spotify = new Spotify(keys.spotify);
 
-// Grabbing the search type argument
-var command = process.argv[2];
+
+if (process.argv[2]) {
+    var command = process.argv[2];
+}
 // Joining the remaining arguments since an actor or tv show name may contain spaces
 var term = process.argv.slice(3).join(" ");
 
@@ -56,35 +58,33 @@ if (command === "movie-this" && term) {//and if term is true aka they entered a 
 
 }
 
+//------------------------------------------------------------------------------------------------------------------------
+if (command === "spotify-this-song" && term) {
 
+    var spotify = new Spotify({
+        id: process.env.SPOTIFY_ID,
+        secret: process.env.SPOTIFY_SECRET
+    });
 
+    spotify.search({ type: 'track', query: 'All the Small Things' }, function (err, data) {
 
+        console.log(data);
 
-// var spotify = new Spotify({
-//     id: <your spotify client id>,
-//   secret: <your spotify client secret>
-//             });
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        }
 
-// spotify.search({type: 'track', query: 'All the Small Things' }, function(err, data) {
-//   if (err) {
-//     return console.log('Error occurred: ' + err);
-//           }
+        console.log(data);
+    });
 
-//         console.log(data); 
-// });
-
-if (process.argv[2]) {
-    var command = process.argv[2];
 }
+
+
+
+
 
 
 if (command === "concert this") {
-
-}
-if (command === "spotify-this-song") {
-
-}
-if (command === "movie-this") {
 
 }
 if (command === "do-what-it-says") {
