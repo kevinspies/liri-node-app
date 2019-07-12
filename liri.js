@@ -72,7 +72,21 @@ if (command === "movie-this" && term) {//and if term is true aka they entered a 
 
     axios.get(queryUrl).then(
         function (response) {
-            console.log(response.data.plot);
+            var jsonData = response.data;
+            //    * Title of the movie.
+            //    * Year the movie came out.
+            //    * IMDB Rating of the movie.
+            //    * Rotten Tomatoes Rating of the movie.
+            //    * Country where the movie was produced.
+            //    * Language of the movie.
+            //    * Plot of the movie.
+            //    * Actors in the movie.
+            console.log(jsonData.Title);
+            console.log(jsonData.Released);
+            console.log("imdb: " + jsonData.imdbRating);
+            console.log("rotten tomatoes: " + jsonData.Ratings[1].Value);
+            console.log("produced in: " + jsonData.Country);
+            console.log(jsonData.Language);
         })
         .catch(function (error) {
             if (error.response) {
@@ -99,6 +113,10 @@ if (command === "movie-this" && term) {//and if term is true aka they entered a 
 
 //------------------------------------------------------------------------------------------------------------------------
 if (command === "spotify-this-song" && term) {
+    // Artist(s)
+    // The song's name
+    // A preview link of the song from Spotify
+    // The album that the song is from
 
     var spotify = new Spotify({
         id: process.env.SPOTIFY_ID,
@@ -107,7 +125,7 @@ if (command === "spotify-this-song" && term) {
 
     spotify.search({ type: 'track', query: 'All the Small Things' }, function (err, data) {
 
-        console.log(data);
+        console.log(data.tracks.items[0]);
 
         if (err) {
             return console.log('Error occurred: ' + err);
