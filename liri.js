@@ -1,4 +1,5 @@
 require("dotenv").config();
+var fs = require("fs");
 var Spotify = require('node-spotify-api');
 var axios = require("axios");
 var keys = require("./keys.js");
@@ -32,9 +33,34 @@ if (command === "concert-this" && term) {//and if term is true aka they entered 
 
     axios.get(bandUrl).then(
         function (response) {
-            console.log(response.data);
+            var jsonData = response.data;
+            for (var i = 0; i < jsonData.length; i++) {
+                console.log("------------concert " + i + "----------\n");
+                console.log(jsonData[i].venue.name);
+                console.log(jsonData[i].venue.country);
+                console.log(jsonData[i].datetime);
+            }
         })
-        .catch(errorHandler());
+        .catch(function (error) {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log("---------------Data---------------");
+                console.log(error.response.data);
+                console.log("---------------Status---------------");
+                console.log(error.response.status);
+                console.log("---------------Status---------------");
+                console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an object that comes back with details pertaining to the error that occurred.
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log("Error", error.message);
+            }
+            console.log(error.config);
+        });
 }
 
 
@@ -48,7 +74,26 @@ if (command === "movie-this" && term) {//and if term is true aka they entered a 
         function (response) {
             console.log(response.data.plot);
         })
-        .catch(errorHandler());
+        .catch(function (error) {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log("---------------Data---------------");
+                console.log(error.response.data);
+                console.log("---------------Status---------------");
+                console.log(error.response.status);
+                console.log("---------------Status---------------");
+                console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an object that comes back with details pertaining to the error that occurred.
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log("Error", error.message);
+            }
+            console.log(error.config);
+        });
 
 }
 
@@ -78,23 +123,3 @@ if (command === "do-what-it-says") {
 
 }
 
-function errorHandler(error) {
-    if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log("---------------Data---------------");
-        console.log(error.response.data);
-        console.log("---------------Status---------------");
-        console.log(error.response.status);
-        console.log("---------------Status---------------");
-        console.log(error.response.headers);
-    } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an object that comes back with details pertaining to the error that occurred.
-        console.log(error.request);
-    } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log("Error", error.message);
-    }
-    console.log(error.config);
-}
