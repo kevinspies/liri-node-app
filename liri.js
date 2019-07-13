@@ -21,9 +21,8 @@ if (!term) {
     console.log("please enter a search term, i.e. Land Before Time");
 }
 console.log("command + term: " + command + " " + term);
+
 //---------------------------------------------------------------------------------------------------------------------
-
-
 
 
 if (command === "concert-this" && term) {//and if term is true aka they entered a search term
@@ -63,14 +62,14 @@ if (command === "concert-this" && term) {//and if term is true aka they entered 
         });
 }
 
+//------------------------------------------------------------------------------------------------------------------------
 
-
-if (command === "movie-this" && term) {//and if term is true aka they entered a search term
+function movieFunction(someTerm) {
 
     // omdb -->  https://www.omdbapi.com/?t=god+father&y=&plot=short&apikey=trilogy 
-    var queryUrl = "http://www.omdbapi.com/?t=" + term + "&y=&plot=short&apikey=trilogy";
+    var movieUrl = "http://www.omdbapi.com/?t=" + term + "&y=&plot=short&apikey=trilogy";
 
-    axios.get(queryUrl).then(
+    axios.get(movieUrl).then(
         function (response) {
             var jsonData = response.data;
             //    * Title of the movie.
@@ -111,33 +110,66 @@ if (command === "movie-this" && term) {//and if term is true aka they entered a 
 
 }
 
+if (command === "movie-this" && term) {//and if term is true aka they entered a search term
+
+
+
+}
+
 //------------------------------------------------------------------------------------------------------------------------
-if (command === "spotify-this-song" && term) {
+function spotifyFunction(someTerm) {
+
     // Artist(s)
     // The song's name
     // A preview link of the song from Spotify
     // The album that the song is from
-
     var spotify = new Spotify({
         id: process.env.SPOTIFY_ID,
         secret: process.env.SPOTIFY_SECRET
     });
 
-    spotify.search({ type: 'track', query: 'All the Small Things' }, function (err, data) {
+    spotify.search({ type: 'track', query: someTerm }, function (err, data) {
 
-        console.log(data.tracks.items[0]);
+        //data.tracks.items[0].album.tracks.items[0] ? ? ! ? !
+        console.log(JSON.stringify(data.tracks.items[0], null, 2));
+        // console.log(data.tracks.items[0].artists.external_urls.name);
 
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-
-        console.log(data);
     });
-
 }
-
+if (command === "spotify-this-song" && term) {
+    spotifyFunction(term);
+}
+//------------------------------------------------------------------------------------------------------------------------
 
 if (command === "do-what-it-says") {
+    fs.readFile("random.txt", "utf8", function (error, data) {
 
+        // If the code experiences any errors it will log the error to the console.
+        if (error) {
+            return console.log(error);
+        }
+
+        // We will then print the contents of data
+        console.log(data);
+
+        // Then split it by commas (to make it more readable)
+        var dataArr = data.split(",");
+
+        // We will then re-display the content as an array for later use.
+        console.log(dataArr);
+        if (dataArr[0] === "concert-this") {
+
+        }
+        if (dataArr[0] === "movie-this") {
+
+        }
+        if (dataArr[0] === "spotify-this-song") {
+            spotifyFunction(dataArr[1]);
+        }
+
+    });
 }
 
