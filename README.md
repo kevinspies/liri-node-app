@@ -21,6 +21,12 @@ node liri.js movie-this '<movie name here>'
 node liri.js do-what-it-says
 
 
+************************************************
+https://github.com/kevinspies/liri-node-app
+
+************************************************
+
+
 Technonlogies:
 
 -node.js, javascipt, axios, varios npm libraries, API's for spotify, bands
