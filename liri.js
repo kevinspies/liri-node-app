@@ -4,8 +4,7 @@ var Spotify = require('node-spotify-api');
 var axios = require("axios");
 var keys = require("./keys.js");
 var spotify = new Spotify(keys.spotify);
-
-
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 if (process.argv[2]) {
     var command = process.argv[2];
 }
@@ -21,16 +20,13 @@ if (!term) {
     console.log("please enter a search term, i.e. Land Before Time");
 }
 console.log("command + term: " + command + " " + term);
-
-//---------------------------------------------------------------------------------------------------------------------
-
-
-if (command === "concert-this" && term) {//and if term is true aka they entered a search term
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+function concertFunction(someTerm) {
 
     // bands in town -->  https://rest.bandsintown.com/artists/replaceWithBandName/events?app_id=codingbootcamp
-    var bandUrl = "https://rest.bandsintown.com/artists/" + term + "/events?app_id=codingbootcamp";
+    var venueUrl = "https://rest.bandsintown.com/artists/" + someTerm + "/events?app_id=codingbootcamp";
 
-    axios.get(bandUrl).then(
+    axios.get(venueUrl).then(
         function (response) {
             var jsonData = response.data;
             for (var i = 0; i < jsonData.length; i++) {
@@ -60,14 +56,13 @@ if (command === "concert-this" && term) {//and if term is true aka they entered 
             }
             console.log(error.config);
         });
+
 }
-
-//------------------------------------------------------------------------------------------------------------------------
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function movieFunction(someTerm) {
 
     // omdb -->  https://www.omdbapi.com/?t=god+father&y=&plot=short&apikey=trilogy 
-    var movieUrl = "http://www.omdbapi.com/?t=" + term + "&y=&plot=short&apikey=trilogy";
+    var movieUrl = "http://www.omdbapi.com/?t=" + someTerm + "&y=&plot=short&apikey=trilogy";
 
     axios.get(movieUrl).then(
         function (response) {
@@ -86,6 +81,14 @@ function movieFunction(someTerm) {
             console.log("rotten tomatoes: " + jsonData.Ratings[1].Value);
             console.log("produced in: " + jsonData.Country);
             console.log(jsonData.Language);
+            console.log(jsonData.Plot);
+            //all elements in the actors array
+
+            var actorsString = jsonData.Actors;
+            console.log("actors string: " + actorsString);
+
+            // for (var i = 0; i < jsonData.Actors.)
+
         })
         .catch(function (error) {
             if (error.response) {
@@ -109,14 +112,7 @@ function movieFunction(someTerm) {
         });
 
 }
-
-if (command === "movie-this" && term) {//and if term is true aka they entered a search term
-
-
-
-}
-
-//------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function spotifyFunction(someTerm) {
 
     // Artist(s)
@@ -130,7 +126,7 @@ function spotifyFunction(someTerm) {
 
     spotify.search({ type: 'track', query: someTerm }, function (err, data) {
 
-        //data.tracks.items[0].album.tracks.items[0] ? ? ! ? !
+        //data.tracks.items[0].album.tracks.items[0]
         console.log(JSON.stringify(data.tracks.items[0], null, 2));
         // console.log(data.tracks.items[0].artists.external_urls.name);
 
@@ -139,32 +135,24 @@ function spotifyFunction(someTerm) {
         }
     });
 }
-if (command === "spotify-this-song" && term) {
-    spotifyFunction(term);
-}
-//------------------------------------------------------------------------------------------------------------------------
-
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 if (command === "do-what-it-says") {
     fs.readFile("random.txt", "utf8", function (error, data) {
 
-        // If the code experiences any errors it will log the error to the console.
         if (error) {
             return console.log(error);
         }
-
-        // We will then print the contents of data
         console.log(data);
 
-        // Then split it by commas (to make it more readable)
+        // split by comma to seperate out command and term variables (which we will change in random.txt instead of them inputting this time)
         var dataArr = data.split(",");
 
-        // We will then re-display the content as an array for later use.
         console.log(dataArr);
         if (dataArr[0] === "concert-this") {
-
+            concertFunction(dataArr[1]);
         }
         if (dataArr[0] === "movie-this") {
-
+            movieFunction(dataArr[1]);
         }
         if (dataArr[0] === "spotify-this-song") {
             spotifyFunction(dataArr[1]);
@@ -172,4 +160,15 @@ if (command === "do-what-it-says") {
 
     });
 }
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+if (command === "movie-this" && term) {
+    movieFunction(term);
+}
 
+if (command === "spotify-this-song" && term) {
+    spotifyFunction(term);
+}
+
+if (command === "concert-this" && term) {
+    concertFunction(term);
+}
