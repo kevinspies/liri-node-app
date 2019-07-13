@@ -82,10 +82,10 @@ function movieFunction(someTerm) {
             console.log("produced in: " + jsonData.Country);
             console.log(jsonData.Language);
             console.log(jsonData.Plot);
-            //all elements in the actors array
+            //all elements in the actors array(whops it was just a string, i should just delete but will leave for dramatic effect posterity etc etc)
 
             var actorsString = jsonData.Actors;
-            console.log("actors string: " + actorsString);
+            console.log(actorsString);
 
             // for (var i = 0; i < jsonData.Actors.)
 
