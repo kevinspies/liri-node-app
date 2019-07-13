@@ -127,7 +127,18 @@ function spotifyFunction(someTerm) {
     spotify.search({ type: 'track', query: someTerm }, function (err, data) {
 
         //data.tracks.items[0].album.tracks.items[0]
-        console.log(JSON.stringify(data.tracks.items[0], null, 2));
+        // console.log(JSON.stringify(data.tracks.items[0], null, 2));
+
+
+        console.log("artists: " + data.tracks.items[0].album.artists[0].name);//array makes sense 
+        //for m ultiple targets, i guess carly rae jepsen is the only artist for call me maybe
+        console.log("album name: " + data.tracks.items[0].album.name);
+        console.log("preview link: " + data.tracks.items[0].album.external_urls.spotify);
+        // console.log(data.tracks.items[0].name);
+        // console.log(data.tracks.items[0].album);
+
+
+
         // console.log(data.tracks.items[0].artists.external_urls.name);
 
         if (err) {
